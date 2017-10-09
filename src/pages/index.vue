@@ -3,40 +3,22 @@
 		<headNav></headNav>
 		<swiper :list="imgList" auto height="180px" dots-class="custom-bottom" dots-position="center"></swiper>
 		<div class="index-content weui-cells">
-			<div class="weui-cell" @click="goDetail">
+			<div class="weui-cell" @click="goDetail(item.productId)" v-for="item in list">
 				<div class="weui-cell__hd">
-					<img src="http://img1.imgtn.bdimg.com/it/u=276042509,582481544&fm=27&gp=0.jpg" width="60" height="60"/>
+					<img :src="item.picture" width="60" height="60"/>
 				</div>
 				<div class="weui-cell__bd">
 					<div class="product-name">
-						车名车名
+						{{item.title}}
 					</div>
 					<div class="product-dec">
-						车名车名
+						{{item.subTitle}}
 					</div>
 					<div class="product-num">
-						<span>首付<strong>3.25</strong>万</span> | 
-						<span>月供3250元</span>
+						<span>首付<strong>{{item.paymentDeposit}}</strong></span> | 
+						<span>月供{{item.paymentEach}}元</span>
 					</div>
-					<div class="product-remark">指导价</div>
-				</div>
-			</div>
-			<div class="weui-cell">
-				<div class="weui-cell__hd">
-					<img src="http://img1.imgtn.bdimg.com/it/u=276042509,582481544&fm=27&gp=0.jpg" width="60" height="60"/>
-				</div>
-				<div class="weui-cell__bd">
-					<div class="product-name">
-						车名车名
-					</div>
-					<div class="product-dec">
-						车名车名
-					</div>
-					<div class="product-num">
-						<span>首付<strong>3.25</strong>万</span> | 
-						<span>月供3250元</span>
-					</div>
-					<div class="product-remark">指导价</div>
+					<div class="product-remark">指导价{{item.price}}万起</div>
 				</div>
 			</div>
 		</div>
@@ -60,33 +42,8 @@ export default {
 	name: 'app',
 	data(){
 		return {
-			imgList: [
-				{
-					url: '',
-					img: 'http://f11.baidu.com/it/u=2881303562,336932824&fm=72',
-					title: '',
-				},
-				{
-					url: '',
-					img: 'http://img5.imgtn.bdimg.com/it/u=500369747,3965214646&fm=27&gp=0.jpg',
-					title: '',
-				},
-			],
-			list: [{
-		        src: 'http://somedomain.somdomain/x.jpg',
-		        fallbackSrc: 'http://placeholder.qiniudn.com/60x60/3cc51f/ffffff',
-		        title: '标题一',
-		        desc: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
-		        url: '/component/cell'
-		      }, {
-		        src: 'http://placeholder.qiniudn.com/60x60/3cc51f/ffffff',
-		        title: '标题二',
-		        desc: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
-		        url: {
-		          path: '/component/radio',
-		          replace: false
-		        },
-		      }],
+			imgList: [],
+			list: [],
 		};
 	},
 	computed: {
@@ -94,21 +51,24 @@ export default {
 	},
 	components: {headNav, Swiper},
 	methods: {
-		goDetail(){
-			this.$router.push('/detail');
+		goDetail(id){
+			this.$router.push('/detail?productId='+id);
 		},
 		...actions,
 	},
 	mounted(){
-		// LXAjax('', 'aa', {
-		// 	id: 1
-		// })
-		// .done(res => {
-		// 	console.log(res);
-		// })
-		// .error(err => {
-		// 	console.log(err);
-		// });
+		LXAjax('get', 'api/index')
+		.done(res => {
+			this.imgList = res.adList.map(el => {
+				el.url = el.imgLink;
+				el.img = el.imgUrl;
+				return el;
+			});
+			this.list = res.productList || [];
+		})
+		.error(err => {
+			console.log(err);
+		});
 		this.$wechat.config({
 			debug: false,
 			appId: '', // 和获取Ticke的必须一样------必填，公众号的唯一标识
@@ -169,7 +129,7 @@ export default {
 		margin-right: 10px;
 	}
 	.product-name{
-		font-size: 13px;
+		font-size: 14px;
 	}
 	.product-dec{
 		font-size: 12px;
@@ -177,6 +137,7 @@ export default {
 	.product-num{
 		color: #e47100;
 		font-size: 12px;
+		margin-top: 6px;
 	}
 	.product-num span strong{
 		font-size: 16px;
@@ -184,6 +145,7 @@ export default {
 	.product-remark{
 		font-size: 10px;
 		color: #aaa;
+		margin-top: 10px;
 	}
 	.weui-cells{
 		margin-top: 0;

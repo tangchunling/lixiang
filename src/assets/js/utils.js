@@ -31,22 +31,28 @@ export const LXAjax = (method = 'post', api = '', data = {}) => {
 	let error = () => {};
 	let always = () => {};
 
-	api = 'https://some-domain.com/api/' + api;
+	// api = 'http://api.imaqu.com' + api;
 
 	let $http = null;
 	if(method === 'get'){
-		$http = axios.get(api, data);
+		$http = axios.get(api, data, {withCredentials:true});
 	}
 	else{
-		$http = axios.post(api, data);
+		$http = axios.post(api, data, {withCredentials:true});
 	}
 	if($http === null){
-		$http = axios.post(api, data);
+		$http = axios.post(api, data, {withCredentials:true});
 	}
 
 	$http.then(res => {
+		console.log(res);
 		if(res.status == 200){
-			done(res.data);
+			if(res.data.flag === 1){
+				done(res.data);
+			}
+			else{
+				fail(res.data);
+			}
 		}
 		else{
 			error(res.data);
