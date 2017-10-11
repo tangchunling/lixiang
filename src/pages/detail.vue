@@ -3,11 +3,11 @@
 		<headNav></headNav>
 		<swiper :list="imgList" auto height="180px" dots-class="custom-bottom" dots-position="center"></swiper>
 		<div class="block">
-			<div class="pro-name">车名车名车名</div>
-			<div class="pro-dec">车名车名车名</div>
+			<div class="pro-name">{{carInfo.title}}</div>
+			<div class="pro-dec">{{carInfo.subTitle}}</div>
 			<div class="pro-remark">
-				<span>指导价</span>
-				<span>已售：1200辆</span>
+				<span>指导价{{carInfo.price}}万起</span>
+				<span>已售：{{carInfo.sales}}辆</span>
 			</div>
 		</div>
 		<div class="line"></div>
@@ -19,30 +19,29 @@
 				<div class="weui-flex__item">
 					<div class="flex-content">
 						<label>首付</label>
-						<span>2.45万</span>
+						<span>{{carInfo.paymentDeposit}}</span>
 					</div>
 				</div>
 				<div class="weui-flex__item">
 					<div class="flex-content">
 						<label>月供</label>
-						<span>2.45万</span>
+						<span>{{carInfo.paymentEach}}</span>
 					</div>
 				</div>
 				<div class="weui-flex__item">
 					<div class="flex-content">
 						<label>期数</label>
-						<span>2.45万</span>
+						<span>{{carInfo.paymentTerm}}</span>
 					</div>
 				</div>
 			</div>
 			<ul class="list">
 				<li>
 					.
-					<span class="tag">含购置说</span>
-					<span class="tag">送一年保险</span>
+					<span class="tag" v-for="item in carInfo.paymentTags">{{item}}</span>
 				</li>
 				<li>
-					. 需向门店支付交车服务费6000元
+					. {{carInfo.paymentRemark}}
 				</li>
 			</ul>
 			<div class="title after">
@@ -51,10 +50,10 @@
 			<ul class="list">
 				<li>
 					.
-					<span class="red">尾款购车222元</span>
+					<span class="red">尾款购车{{carInfo.paymentTail}}元</span>
 				</li>
 				<li>
-					. 尾款也可分期24*1200元
+					. 尾款也可分期{{carInfo.paymentTerm}}*{{carInfo.paymentEach}}元
 				</li>
 			</ul>
 		</div>
@@ -77,7 +76,10 @@
 			<tab-item>购车说明</tab-item>
 		</tab>
 		<div class="line"></div>
-		<div class="block">
+		<div class="block" v-html="carInfo.desc"></div>
+		<div class="block" v-html="carInfo.paymentRemark">
+		</div>
+		<!-- <div class="block">
 			<div class="line-title">—— 基本配置 ——</div>
 			<group label-width="5em" class="config">
 				<cell primary="conten" title="车身结构" value="5门5座" style="font-size: 10px;"></cell>
@@ -91,7 +93,7 @@
 			</group>
 			<div class="line-title">—— 核心技术 ——</div>
 			<div class="line-title">—— 车型亮点 ——</div>
-		</div>
+		</div> -->
 		<div class="height"></div>
 		<div class="detail-foot">
 			<a href="tel:400123456">
@@ -104,26 +106,42 @@
 </template>
 <script>
 	import headNav from '@/components/headNav';
-	import { Swiper, Tab, TabItem, Cell, Group } from 'vux'
+	import { Swiper, Tab, TabItem, Cell, Group } from 'vux';
+	import { LXAjax } from '@/assets/js/utils';
 
 	export default {
 		data(){
 			return {
-				imgList: [
-					{
-						url: '',
-						img: 'http://f11.baidu.com/it/u=2881303562,336932824&fm=72',
-						title: '',
-					},
-					{
-						url: '',
-						img: 'http://img5.imgtn.bdimg.com/it/u=500369747,3965214646&fm=27&gp=0.jpg',
-						title: '',
-					},
-				],
+				imgList: [],
+				productId: '',
+				carInfo: '',
 			};
 		},
+		methods: {
+			getDetail(){
+				let api = 'api/buy/detail?productId=' + this.productId;
+				LXAjax('get', api)
+				.done(res => {
+					this.imgList = res.carInfo.images.map(el => {
+						let obj = {};
+						obj.url = '';
+						obj.img = el;
+						obj.title = '';
+						return obj;
+					});
+					res.carInfo.paymentTags = res.carInfo.paymentTags.split('，');
+					this.carInfo = res.carInfo;
+				})
+				.error(err => {
+					console.log(err);
+				});
+			}
+		},
 		components: {headNav, Swiper, Tab, TabItem, Cell, Group},
+		mounted(){
+			this.productId = Number(this.$route.query.productId);
+			this.getDetail();
+		}
 	};
 </script>
 <style scoped lang="less">
@@ -194,6 +212,7 @@
 				padding: 2px 4px;
 				border: 1px solid #2487c0;
 				border-radius: 4px;
+				margin-right: 4px;
 			}
 			font-size: 10px;
 			color: #888;
