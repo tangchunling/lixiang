@@ -124,12 +124,13 @@ export default {
 	}
 };
 </script>
-<style scoped>
+<style lang="less" scoped>
 	.weui-cell__hd img{
 		margin-right: 10px;
 	}
 	.product-name{
 		font-size: 14px;
+		margin-bottom: 4px;
 	}
 	.product-dec{
 		font-size: 12px;
@@ -149,5 +150,9 @@ export default {
 	}
 	.weui-cells{
 		margin-top: 0;
+		.weui-cell{
+			padding-top: 20px;
+			padding-bottom: 20px;
+		}
 	}
 </style>

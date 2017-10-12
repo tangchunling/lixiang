@@ -102,7 +102,7 @@
 					<img src="" alt="">
 					<span>400-123-1234</span>
 				</a>
-				<a href="">预约到店</a>
+				<a @click="goSubscribe">预约到店</a>
 			</div>
 		</template>
 	</div>
@@ -129,16 +129,19 @@
 					this.imgList = res.carInfo.images.map(el => {
 						let obj = {};
 						obj.url = '';
-						obj.img = el;
+						obj.img = 'http://img.imaqu.com' + el;
 						obj.title = '';
 						return obj;
 					});
-					res.carInfo.paymentTags = res.carInfo.paymentTags.split('，');
+					res.carInfo.paymentTags = res.carInfo.paymentTags.split(',');
 					this.carInfo = res.carInfo;
 				})
 				.error(err => {
 					console.log(err);
 				});
+			},
+			goSubscribe(){
+				this.$router.push('/subscribe?productId=' + this.productId);
 			}
 		},
 		components: {headNav, Swiper, Tab, TabItem, Cell, Group},

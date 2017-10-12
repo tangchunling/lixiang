@@ -34,7 +34,7 @@ export const LXAjax = (method = 'post', api = '', data = {}) => {
 	let always = () => {};
 
 	if(isDev){
-		api = 'http://joyli.imaqu.com' + api;
+		api = 'http://joyli.imaqu.com/' + api;
 	}
 
 	let $http = null;
