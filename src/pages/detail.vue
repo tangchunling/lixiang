@@ -1,107 +1,110 @@
 <template>
 	<div>
 		<headNav></headNav>
-		<swiper :list="imgList" auto height="180px" dots-class="custom-bottom" dots-position="center"></swiper>
-		<div class="block">
-			<div class="pro-name">{{carInfo.title}}</div>
-			<div class="pro-dec">{{carInfo.subTitle}}</div>
-			<div class="pro-remark">
-				<span>指导价{{carInfo.price}}万起</span>
-				<span>已售：{{carInfo.sales}}辆</span>
-			</div>
-		</div>
-		<div class="line"></div>
-		<div class="block detail-num">
-			<div class="title">
-				<img src="../assets/images/xq_jt.png" alt=""><span>先用一年</span>
-			</div>
-			<div class="weui-flex">
-				<div class="weui-flex__item">
-					<div class="flex-content">
-						<label>首付</label>
-						<span>{{carInfo.paymentDeposit}}</span>
-					</div>
-				</div>
-				<div class="weui-flex__item">
-					<div class="flex-content">
-						<label>月供</label>
-						<span>{{carInfo.paymentEach}}</span>
-					</div>
-				</div>
-				<div class="weui-flex__item">
-					<div class="flex-content">
-						<label>期数</label>
-						<span>{{carInfo.paymentTerm}}</span>
-					</div>
+		<div v-if="carInfo === ''">请选择商品</div>
+		<template v-else>
+			<swiper :list="imgList" auto height="180px" dots-class="custom-bottom" dots-position="center"></swiper>
+			<div class="block">
+				<div class="pro-name">{{carInfo.title}}</div>
+				<div class="pro-dec">{{carInfo.subTitle}}</div>
+				<div class="pro-remark">
+					<span>指导价{{carInfo.price}}万起</span>
+					<span>已售：{{carInfo.sales}}辆</span>
 				</div>
 			</div>
-			<ul class="list">
-				<li>
-					.
-					<span class="tag" v-for="item in carInfo.paymentTags">{{item}}</span>
-				</li>
-				<li>
-					. {{carInfo.paymentRemark}}
-				</li>
-			</ul>
-			<div class="title after">
-				<img src="../assets/images/xq_jt.png" alt=""><span>一年后</span>
+			<div class="line"></div>
+			<div class="block detail-num">
+				<div class="title">
+					<img src="../assets/images/xq_jt.png" alt=""><span>先用一年</span>
+				</div>
+				<div class="weui-flex">
+					<div class="weui-flex__item">
+						<div class="flex-content">
+							<label>首付</label>
+							<span>{{carInfo.paymentDeposit}}</span>
+						</div>
+					</div>
+					<div class="weui-flex__item">
+						<div class="flex-content">
+							<label>月供</label>
+							<span>{{carInfo.paymentEach}}</span>
+						</div>
+					</div>
+					<div class="weui-flex__item">
+						<div class="flex-content">
+							<label>期数</label>
+							<span>{{carInfo.paymentTerm}}</span>
+						</div>
+					</div>
+				</div>
+				<ul class="list">
+					<li>
+						.
+						<span class="tag" v-for="item in carInfo.paymentTags">{{item}}</span>
+					</li>
+					<li>
+						. {{carInfo.paymentRemark}}
+					</li>
+				</ul>
+				<div class="title after">
+					<img src="../assets/images/xq_jt.png" alt=""><span>一年后</span>
+				</div>
+				<ul class="list">
+					<li>
+						.
+						<span class="red">尾款购车{{carInfo.paymentTail}}元</span>
+					</li>
+					<li>
+						. 尾款也可分期{{carInfo.paymentTerm}}*{{carInfo.paymentEach}}元
+					</li>
+				</ul>
 			</div>
-			<ul class="list">
-				<li>
-					.
-					<span class="red">尾款购车{{carInfo.paymentTail}}元</span>
-				</li>
-				<li>
-					. 尾款也可分期{{carInfo.paymentTerm}}*{{carInfo.paymentEach}}元
-				</li>
-			</ul>
-		</div>
-		<div class="line"></div>
-		<div class="block">
-			<div class="store">
-				<span>全部门店</span>
-				<span>全部999家门店</span>
+			<div class="line"></div>
+			<div class="block">
+				<div class="store">
+					<span>全部门店</span>
+					<span>全部999家门店</span>
+				</div>
+				<div class="store-name">
+					什么什么什么公司
+				</div>
+				<div class="store-dec">
+					杭州滨江啥公司
+				</div>
 			</div>
-			<div class="store-name">
-				什么什么什么公司
+			<div class="line"></div>
+			<tab :line-width="1" custom-bar-width="60px" v-model="index">
+				<tab-item>车辆信息</tab-item>
+				<tab-item>购车说明</tab-item>
+			</tab>
+			<div class="line"></div>
+			<div class="block" v-html="carInfo.desc" v-if="index === 0"></div>
+			<div class="block" v-html="carInfo.paymentRemark" v-if="index === 1">
 			</div>
-			<div class="store-dec">
-				杭州滨江啥公司
+			<!-- <div class="block">
+				<div class="line-title">—— 基本配置 ——</div>
+				<group label-width="5em" class="config">
+					<cell primary="conten" title="车身结构" value="5门5座" style="font-size: 10px;"></cell>
+					<cell primary="conten" title="长/宽/高" value="11/12/12" style="font-size: 10px;"></cell>
+					<cell primary="conten" title="发动机" value="11/12/12" style="font-size: 10px;"></cell>
+					<cell primary="conten" title="电池" value="11/12/12" style="font-size: 10px;"></cell>
+					<cell primary="conten" title="充电" value="11/12/12" style="font-size: 10px;"></cell>
+					<cell primary="conten" title="经济性" value="11/12/12" style="font-size: 10px;"></cell>
+					<cell primary="conten" title="质保" value="11/12/12" style="font-size: 10px;"></cell>
+					<cell primary="conten" title="车辆配色" value="11/12/12" style="font-size: 10px;"></cell>
+				</group>
+				<div class="line-title">—— 核心技术 ——</div>
+				<div class="line-title">—— 车型亮点 ——</div>
+			</div> -->
+			<div class="height"></div>
+			<div class="detail-foot">
+				<a href="tel:400123456">
+					<img src="" alt="">
+					<span>400-123-1234</span>
+				</a>
+				<a href="">预约到店</a>
 			</div>
-		</div>
-		<div class="line"></div>
-		<tab :line-width="1" custom-bar-width="60px">
-			<tab-item selected>车辆信息</tab-item>
-			<tab-item>购车说明</tab-item>
-		</tab>
-		<div class="line"></div>
-		<div class="block" v-html="carInfo.desc"></div>
-		<div class="block" v-html="carInfo.paymentRemark">
-		</div>
-		<!-- <div class="block">
-			<div class="line-title">—— 基本配置 ——</div>
-			<group label-width="5em" class="config">
-				<cell primary="conten" title="车身结构" value="5门5座" style="font-size: 10px;"></cell>
-				<cell primary="conten" title="长/宽/高" value="11/12/12" style="font-size: 10px;"></cell>
-				<cell primary="conten" title="发动机" value="11/12/12" style="font-size: 10px;"></cell>
-				<cell primary="conten" title="电池" value="11/12/12" style="font-size: 10px;"></cell>
-				<cell primary="conten" title="充电" value="11/12/12" style="font-size: 10px;"></cell>
-				<cell primary="conten" title="经济性" value="11/12/12" style="font-size: 10px;"></cell>
-				<cell primary="conten" title="质保" value="11/12/12" style="font-size: 10px;"></cell>
-				<cell primary="conten" title="车辆配色" value="11/12/12" style="font-size: 10px;"></cell>
-			</group>
-			<div class="line-title">—— 核心技术 ——</div>
-			<div class="line-title">—— 车型亮点 ——</div>
-		</div> -->
-		<div class="height"></div>
-		<div class="detail-foot">
-			<a href="tel:400123456">
-				<img src="" alt="">
-				<span>400-123-1234</span>
-			</a>
-			<a href="">预约到店</a>
-		</div>
+		</template>
 	</div>
 </template>
 <script>
@@ -115,6 +118,7 @@
 				imgList: [],
 				productId: '',
 				carInfo: '',
+				index: 0,
 			};
 		},
 		methods: {

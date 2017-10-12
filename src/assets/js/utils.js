@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const isDev = process.env.NODE_ENV === 'production';
+
 /**
  * 判断是否是微信浏览器
  * @author dachun <tangchunling@freshfirst.cn>
@@ -31,7 +33,9 @@ export const LXAjax = (method = 'post', api = '', data = {}) => {
 	let error = () => {};
 	let always = () => {};
 
-	// api = 'http://api.imaqu.com' + api;
+	if(isDev){
+		api = 'http://joyli.imaqu.com' + api;
+	}
 
 	let $http = null;
 	if(method === 'get'){
