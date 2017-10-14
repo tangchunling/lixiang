@@ -6,7 +6,7 @@
 			<div class="weui-cells">
 				<div class="weui-cell">
 					<div class="weui-cell__hd">
-						<img :src="productDetail.img" width="60" height="60"/>
+						<img :src="productDetail.img" width="90"/>
 					</div>
 					<div class="weui-cell__bd">
 						<div class="product-name">
@@ -29,10 +29,10 @@
 					<div class="weui-cell__bd">
 						<input class="weui-input" placeholder="请输入" v-model="subscribe.name">
 					</div>
-					<div class="weui-cell__ft">
+					<!-- <div class="weui-cell__ft">
 						<input type="radio" name="sex" v-model="subscribe.sex" value="0">先生
 						<input type="radio" name="sex" v-model="subscribe.sex" value="1">女士
-					</div>
+					</div> -->
 				</div>
 				<div class="weui-cell">
 					<div class="weui-cell__hd">
@@ -67,7 +67,7 @@
 </template>
 <script>
 	import { XHeader, Datetime, Group, PopupPicker } from 'vux';
-	import { LXAjax } from '@/assets/js/utils';
+	import { LXAjax, checkPhone } from '@/assets/js/utils';
 
 	export default {
 		data(){
@@ -77,20 +77,12 @@
 					name: '',
 					date: '',
 					sex: 0,
-					store: ['门店'],
+					store: ['1'],
+					storeId: '',
 				},
 				productId: '',
 				productDetail: '',
-				stores: [[
-					{
-						name: '门店1',
-						value: 1,
-					},
-					{
-						name: '门店2',
-						value: 2,
-					}
-				]],
+				stores: [[]],
 			};
 		},
 		components: { XHeader, Datetime, Group, PopupPicker },
@@ -100,22 +92,51 @@
 			},
 			onHide(){},
 			onShow(){},
-			onChange(){},
+			onChange(val){
+				this.stores[0].map(el => {
+					if(el.value == val[0]){
+						this.subscribe.store = [el.name];
+						this.subscribe.storeId = Number(val[0]);
+					}
+				});
+			},
 			setSubscribe(){
+				if(this.subscribe.name === ''){
+					this.$vux.toast.text('请输入姓名', 'top');
+					return;
+				}
+				if(this.subscribe.tel === ''){
+					this.$vux.toast.text('请输入电话号码', 'top');
+					return;
+				}
+				if(!checkPhone(this.subscribe.tel)){
+					this.$vux.toast.text('请输入正确的电话号码', 'top');
+					return;
+				}
+				if(this.subscribe.date === ''){
+					this.$vux.toast.text('请选择预约时间', 'top');
+					return;
+				}
+				if(this.subscribe.storeId === ''){
+					this.$vux.toast.text('请选择门店', 'top');
+					return;
+				}
 				let data = {
-
+					carId: this.productId,
+					carName: this.productDetail.title,
+					carImg: this.productDetail.img,
+					clientName: this.subscribe.name,
+					clientPhone: this.subscribe.tel,
+					reserveDate: this.subscribe.date,
+					shopId: this.subscribe.storeId,
+					shopName: this.subscribe.store[0],
 				};
-				LXAjax('post', api, data)
+				LXAjax('post', 'api/addReserve', data)
 				.done(res => {
-					this.imgList = res.carInfo.images.map(el => {
-						let obj = {};
-						obj.url = '';
-						obj.img = el;
-						obj.title = '';
-						return obj;
-					});
-					res.carInfo.paymentTags = res.carInfo.paymentTags.split('，');
-					this.carInfo = res.carInfo;
+					this.$router.push('/success');
+				})
+				.fail(res => {
+					this.$vux.toast.text(res.message, 'top');
 				})
 				.error(err => {
 					console.log(err);
@@ -136,9 +157,16 @@
 				});
 			},
 			getStore(){
-				LXAjax('get', 'api/reserve/shop/list')
+				LXAjax('get', 'api/shop/list')
 				.done(res => {
-					
+					this.stores = [res.shopInfo];
+					res.shopInfo.map(el => {
+						el.value = el.id;
+					});
+					if(res.shopInfo.length === 1){
+						this.subscribe.store = [res.shopInfo[0].name];
+						this.subscribe.storeId = Number(res.shopInfo[0].id);
+					}
 				})
 				.error(err => {
 					console.log(err);
@@ -161,16 +189,16 @@
 				margin-right: 10px;
 			}
 			.product-name{
-				font-size: 13px;
+				font-size: 16px;
 			}
 			.product-dec{
-				font-size: 12px;
+				font-size: 14px;
 			}
 		}
 	}
 	.page-bd{
 		.weui-cells{
-			font-size: 12px;
+			font-size: 14px;
 			.weui-label{
 				width: 70px;
 			}
@@ -179,8 +207,22 @@
 			}
 		}
 		.weui-btn-area a{
-			font-size: 14px;
+			font-size: 16px;
 			background: #2487c0;
 		}
+	}
+	input[type='radio']{
+		-webkit-appearance: none;
+		appearance: none;
+		width: 12px;
+		height: 12px;
+		background: url(../assets/images/yy_wxz1.png) no-repeat center center;
+		background-size: 100%;
+		vertical-align: middle;
+		margin-right: 2px;
+	}
+	input[type='radio']:checked{
+		background: url(../assets/images/yy_xz1.png) no-repeat center center;
+		background-size: 100%;
 	}
 </style>

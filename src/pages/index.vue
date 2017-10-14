@@ -5,7 +5,7 @@
 		<div class="index-content weui-cells">
 			<div class="weui-cell" @click="goDetail(item.productId)" v-for="item in list">
 				<div class="weui-cell__hd">
-					<img :src="item.picture" width="60" height="60"/>
+					<img :src="item.picture" width="90"/>
 				</div>
 				<div class="weui-cell__bd">
 					<div class="product-name">
@@ -54,21 +54,29 @@ export default {
 		goDetail(id){
 			this.$router.push('/detail?productId='+id);
 		},
+		getData(){
+			this.$vux.loading.show();
+			LXAjax('get', 'api/index')
+			.done(res => {
+				this.imgList = res.adList.map(el => {
+					el.url = el.imgLink;
+					el.img = el.imgUrl;
+					el.title = '';
+					return el;
+				});
+				this.list = res.productList || [];
+			})
+			.error(err => {
+				console.log(err);
+			})
+			.always(res => {
+				this.$vux.loading.hide();
+			});
+		},
 		...actions,
 	},
 	mounted(){
-		LXAjax('get', 'api/index')
-		.done(res => {
-			this.imgList = res.adList.map(el => {
-				el.url = el.imgLink;
-				el.img = el.imgUrl;
-				return el;
-			});
-			this.list = res.productList || [];
-		})
-		.error(err => {
-			console.log(err);
-		});
+		this.getData();
 		this.$wechat.config({
 			debug: false,
 			appId: '', // 和获取Ticke的必须一样------必填，公众号的唯一标识
@@ -82,7 +90,7 @@ export default {
 		});
 		// 处理验证失败的信息
 		this.$wechat.error(function (res) {
-			alert(res);
+			// alert(res);
 		});
 		// 处理验证成功的信息
 		this.$wechat.ready(function () {
@@ -98,7 +106,7 @@ export default {
 					// _this.showMsg("分享成功!")
 				},
 				cancel: function (res) {
-					alert(res);
+					// alert(res);
 					// 用户取消分享后执行的回调函数
 					// logUtil.printLog("取消分享到朋友圈返回的信息为:",res);
 				}
@@ -129,24 +137,24 @@ export default {
 		margin-right: 10px;
 	}
 	.product-name{
-		font-size: 14px;
+		font-size: 16px;
 		margin-bottom: 4px;
 	}
 	.product-dec{
-		font-size: 12px;
+		font-size: 14px;
 	}
 	.product-num{
 		color: #e47100;
-		font-size: 12px;
-		margin-top: 6px;
+		font-size: 14px;
+		margin-top: 14px;
 	}
 	.product-num span strong{
 		font-size: 16px;
 	}
 	.product-remark{
-		font-size: 10px;
+		font-size: 12px;
 		color: #aaa;
-		margin-top: 10px;
+		margin-top: 4px;
 	}
 	.weui-cells{
 		margin-top: 0;

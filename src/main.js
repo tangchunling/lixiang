@@ -15,11 +15,12 @@ require('weui');
 const FastClick = require('fastclick')
 FastClick.attach(document.body)
 
-import { AlertPlugin, ToastPlugin, WechatPlugin} from 'vux';
+import { AlertPlugin, ToastPlugin, WechatPlugin, LoadingPlugin} from 'vux';
 
 Vue.use(AlertPlugin);
 Vue.use(ToastPlugin);
 Vue.use(WechatPlugin);
+Vue.use(LoadingPlugin);
 
 Vue.config.productionTip = false
 

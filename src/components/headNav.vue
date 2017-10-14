@@ -2,7 +2,7 @@
 <div>
 	<div class="head">
 		<div class="left">
-			<span>我要买车</span>
+			<img src="../assets/images/logo.png" alt="" class="logo">
 		</div>
 		<div class="right" @click="showMask">
 			<img src="../assets/images/sy_lb.png" alt="">
@@ -64,11 +64,15 @@
 </script>
 <style scoped lang="less">
 	.head{
-		height: 44px;
-		line-height: 44px;
+		height: 60px;
+		line-height: 60px;
 		padding: 0 10px;
 		overflow: hidden;
 		border-bottom: 1px solid #eee;
+		.logo{
+			width: 100px;
+			vertical-align: middle;
+		}
 	}
 	.head .left{
 		float: left;

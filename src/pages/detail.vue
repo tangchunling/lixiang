@@ -60,20 +60,20 @@
 				</ul>
 			</div>
 			<div class="line"></div>
-			<div class="block">
+			<div class="block" v-if="stores.length > 0">
 				<div class="store">
 					<span>全部门店</span>
-					<span>全部999家门店</span>
+					<span>全部{{stores.length}}家门店</span>
 				</div>
 				<div class="store-name">
-					什么什么什么公司
+					{{stores[0].name}}
 				</div>
 				<div class="store-dec">
-					杭州滨江啥公司
+					{{stores[0].cityName}}{{stores[0].countyName}}{{stores[0].address}}
 				</div>
 			</div>
 			<div class="line"></div>
-			<tab :line-width="1" custom-bar-width="60px" v-model="index">
+			<tab :line-width="1" custom-bar-width="60px" bar-active-color="#2487c0" v-model="index">
 				<tab-item>车辆信息</tab-item>
 				<tab-item>购车说明</tab-item>
 			</tab>
@@ -119,10 +119,12 @@
 				productId: '',
 				carInfo: '',
 				index: 0,
+				stores: [],
 			};
 		},
 		methods: {
 			getDetail(){
+				this.$vux.loading.show();
 				let api = 'api/buy/detail?productId=' + this.productId;
 				LXAjax('get', api)
 				.done(res => {
@@ -138,16 +140,29 @@
 				})
 				.error(err => {
 					console.log(err);
+				})
+				.always(res => {
+					this.$vux.loading.hide();
 				});
 			},
 			goSubscribe(){
 				this.$router.push('/subscribe?productId=' + this.productId);
+			},
+			getStore(){
+				LXAjax('get', 'api/shop/list')
+				.done(res => {
+					this.stores = res.shopInfo;
+				})
+				.error(err => {
+					console.log(err);
+				});
 			}
 		},
 		components: {headNav, Swiper, Tab, TabItem, Cell, Group},
 		mounted(){
 			this.productId = Number(this.$route.query.productId);
 			this.getDetail();
+			this.getStore();
 		}
 	};
 </script>
@@ -156,13 +171,13 @@
 		padding: 10px;
 	}
 	.pro-name{
-		font-size: 13px;
+		font-size: 16px;
 	}
 	.pro-dec{
-		font-size: 12px;
+		font-size: 14px;
 	}
 	.pro-remark{
-		font-size: 10px;
+		font-size: 12px;
 		color: #aaa;
 		margin-top: 12px;
 		span:last-child{
@@ -175,7 +190,7 @@
 	}
 	.detail-num{
 		.title{
-			font-size: 12px;
+			font-size: 14px;
 			padding: 10px 0;
 			&.after{
 				margin-bottom: -14px;
@@ -201,11 +216,11 @@
 			}
 			label{
 				display: block;
-				font-size: 10px;
+				font-size: 12px;
 				color: #888;
 			}
 			span{
-				font-size: 13px;
+				font-size: 15px;
 				color: #e47100;
 			}
 		}
@@ -221,7 +236,7 @@
 				border-radius: 4px;
 				margin-right: 4px;
 			}
-			font-size: 10px;
+			font-size: 12px;
 			color: #888;
 			margin-top: 6px;
 		}
@@ -229,22 +244,22 @@
 	.store{
 		font-size: 14px;
 		span:last-child{
-			font-size: 10px;
+			font-size: 12px;
 			color: #888;
 			float: right;
 		}
 	}
 	.store-name{
-		font-size: 12px;
+		font-size: 14px;
 		margin-top: 10px;
 	}
 	.store-dec{
-		font-size: 10px;
+		font-size: 12px;
 		color: #888;
 	}
 	.line-title{
 		text-align: center;
-		font-size: 12px;
+		font-size: 14px;
 		color: #888;
 		margin-top: 20px;
 	}
@@ -258,10 +273,10 @@
 		z-index: 9;
 		a{
 			text-align: center;
-			height: 40px;
-			line-height: 40px;
+			height: 56px;
+			line-height: 56px;
 			color: #fff;
-			font-size: 14px;
+			font-size: 16px;
 		}
 		a:first-child{
 			flex: 1;
@@ -274,6 +289,10 @@
 		}
 	}
 	.height{
-		height: 50px;
+		height: 70px;
+	}
+	.vux-tab .vux-tab-item.vux-tab-selected {
+		color: #2487c0;
+		border-bottom: 3px solid #2487c0;
 	}
 </style>
