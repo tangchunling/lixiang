@@ -42,10 +42,10 @@ export const LXAjax = (method = 'post', api = '', data = {}) => {
 		$http = axios.get(api, data, {withCredentials:true});
 	}
 	else{
-		$http = axios.post(api, data, {withCredentials:true});
+		$http = axios.post(api, data, {headers: {'Content-Type': 'application/json'}});
 	}
 	if($http === null){
-		$http = axios.post(api, data, {withCredentials:true});
+		$http = axios.post(api, data, {headers: {'Content-Type': 'application/json'}});
 	}
 
 	$http.then(res => {
