@@ -21,7 +21,7 @@
 					</div>
 				</li>
 				<li>
-					<div>
+					<div @click="goOrder">
 						我的订单
 					</div>
 					<div>
@@ -57,6 +57,10 @@
 			},
 			goIndex(){
 				this.$router.push('/');
+				this.hideMask();
+			},
+			goOrder(){
+				this.$router.push('/order');
 				this.hideMask();
 			}
 		}

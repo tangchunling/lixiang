@@ -127,7 +127,7 @@
 					carImg: this.productDetail.img,
 					clientName: this.subscribe.name,
 					clientPhone: this.subscribe.tel,
-					reserveDate: this.subscribe.date,
+					reserveDate: new Date(this.subscribe.date),
 					shopId: this.subscribe.storeId,
 					shopName: this.subscribe.store[0],
 				};
