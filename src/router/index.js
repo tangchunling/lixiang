@@ -11,6 +11,10 @@ const order = (resolve) => { require(['@/pages/order'], resolve); };
 const card = (resolve) => { require(['@/pages/card'], resolve); };
 const code = (resolve) => { require(['@/pages/code'], resolve); };
 const coupon = (resolve) => { require(['@/pages/coupon'], resolve); };
+const orderDetail = (resolve) => { require(['@/pages/orderDetail'], resolve); };
+const bdindex = (resolve) => { require(['@/pages/bdindex'], resolve); };
+const money = (resolve) => { require(['@/pages/money'], resolve); };
+const share = (resolve) => { require(['@/pages/share'], resolve); };
 
 Vue.use(Router)
 
@@ -66,6 +70,26 @@ export default new Router({
 			path: '/coupon',
 			name: 'coupon',
 			component: coupon
+		},
+		{
+			path: '/orderDetail',
+			name: 'orderDetail',
+			component: orderDetail
+		},
+		{
+			path: '/bdindex',
+			name: 'bdindex',
+			component: bdindex
+		},
+		{
+			path: '/money',
+			name: 'money',
+			component: money
+		},
+		{
+			path: '/share',
+			name: 'share',
+			component: share
 		}
 	],
 })

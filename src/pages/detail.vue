@@ -78,8 +78,8 @@
 				<tab-item>购车说明</tab-item>
 			</tab>
 			<div class="line"></div>
-			<div class="block" v-html="carInfo.desc" v-if="index === 0"></div>
-			<div class="block" v-html="carInfo.paymentRemark" v-if="index === 1">
+			<div class="block carinfo" v-html="carInfo.desc" v-if="index === 0"></div>
+			<div class="block carinfo" v-html="carInfo.paymentRemark" v-if="index === 1">
 			</div>
 			<!-- <div class="block">
 				<div class="line-title">—— 基本配置 ——</div>
@@ -294,5 +294,8 @@
 	.vux-tab .vux-tab-item.vux-tab-selected {
 		color: #2487c0;
 		border-bottom: 3px solid #2487c0;
+	}
+	.carinfo img{
+		width: 100%;
 	}
 </style>
