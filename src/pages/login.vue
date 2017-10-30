@@ -14,7 +14,7 @@
 			</div>
 		</div>
 		<div class="weui-btn-area">
-			<a href="" class="weui-btn weui-btn_primary" @click="login">手机号登录</a>
+			<a href="javascript: void(0)" class="weui-btn weui-btn_primary" @click="login">手机号登录</a>
 		</div>
 	</div>
 </template>
@@ -26,7 +26,6 @@
 			return {
 				tel: '',
 				wait: 60,
-				timeout: null,
 				isShow: true,
 				code: '',
 				userId: ''
@@ -34,17 +33,15 @@
 		},
 		methods: {
 			time(){
-				if(wait === 0){
-					this.isShow = true;
-					this.wait = 60;
-				}
-				else{
-					this.isShow = false;
-					this.wait--;
-					this.timeout = setTimeout(function(){
-						this.time();
-					}, 1000);
-				}
+				let $this = this;
+				this.isShow = false;
+				let interval = window.setInterval(function() {
+					if (($this.wait--) <= 0) {
+						$this.wait = 60;
+						$this.isShow = true;
+						window.clearInterval(interval);
+					}
+				}, 1000);
 			},
 			sendCode(){
 				if(this.tel === ''){
@@ -55,10 +52,7 @@
 					this.$vux.toast.text('手机号码不正确', 'top');
 					return;
 				}
-				clearTimeout(this.timeout);
-				LXAjax('post', 'api/sendMobile', {
-					mobile: this.tel,
-				})
+				LXAjax('get', 'api/sendMobile?mobile='+this.tel)
 				.done(res => {
 					this.time();
 					// this.list = res.couponInfo;
@@ -81,11 +75,7 @@
 					this.$vux.toast.text('请输入验证码', 'top');
 					return;
 				}
-				LXAjax('post', 'api/sendMobile', {
-					mobile: this.tel,
-					verifyCode: this.code,
-					userId: this.userId,
-				})
+				LXAjax('post', 'api/login?mobile='+this.tel + '&verifyCode=' + this.code + '&userId=' + this.userId)
 				.done(res => {
 
 				})
@@ -133,7 +123,7 @@
 					font-size: 12px;
 					color: #2487c0;
 					display: inline-block;
-					width: 100px;
+					width: 114px;
 					text-align: right;
 					border-left: 1px solid #aaa;
 				}
