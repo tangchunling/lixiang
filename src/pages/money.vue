@@ -11,7 +11,7 @@
 					<img src="../assets/images/wdbd_lbx.png" alt="">
 					<span>历史总收益</span>
 				</h1>
-				<p>1300元</p>
+				<p>{{data.totalBuddyAmount}}元</p>
 			</div>
 			<div class="list">
 				<h1>
@@ -42,25 +42,66 @@
 				完成签约
 			</div>
 		</div>
-		<div class="weui-flex">
+		<div class="weui-flex" v-for="item in data.inviteUserVoList">
 			<div class="weui-flex__item">
-				我的好友
+				<img :src="item.userLogo" alt="" class="headimg">
+				<span>{{item.userName}}</span>
 			</div>
 			<div class="weui-flex__item">
-				购车状态
+				{{item.orderStatusStr}}
 			</div>
 			<div class="weui-flex__item">
-				他的朋友
+				{{item.quantityInvite}}
 			</div>
 			<div class="weui-flex__item">
-				完成签约
+				{{item.quantityInviteFinish}}
 			</div>
 		</div>
 		<div class="total">
-			合计：1级巴迪1000元+2级巴迪300元=1300元
+			合计：1级巴迪{{data.firstBuddyAmount}}元+2级巴迪{{data.secondBuddyAmount}}元={{data.totalBuddyAmount}}元
 		</div>
 	</div>
 </template>
+<script>
+	import { LXAjax } from '@/assets/js/utils';
+	import { WEIXIN_LOGIN_URL, MONEY } from '@/assets/js/const';
+
+	export default {
+		name: 'coupon',
+		data(){
+			return {
+				data: {
+					totalBuddyAmount: 0,
+					inviteUserVoList: [],
+				},
+			};
+		},
+		computed: {
+		},
+		components: {  },
+		methods: {
+			getData(){
+				LXAjax('get', 'api/user/core/buddy')
+				.done(res => {
+					this.data = res.buddy;
+				})
+				.fail(res => {
+					if(res.flag == -2){
+						window.location.href = WEIXIN_LOGIN_URL + '?state=' + MONEY;
+					}
+				})
+				.error(err => {
+					console.log(err);
+				})
+				.always(res => {
+				});
+			},
+		},
+		mounted(){
+			this.getData();
+		}
+	};
+</script>
 <style lang="less" scoped>
 	.head{
 		height: 30px;
@@ -126,5 +167,11 @@
 		font-size: 12px;
 		padding: 10px;
 		text-align: right;
+	}
+	.headimg{
+		width: 20px;
+		vertical-align: middle;
+		margin-right: 2px;
+		border-radius: 100%;
 	}
 </style>

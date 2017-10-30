@@ -1,12 +1,14 @@
 <template>
 	<div class="order">
 		<x-header title="我的订单"></x-header>
-		<div class="list">
+		<div class="list" v-for="item in list">
 			<div class="weui-cells__title">
-				<span>等待提车</span>
+				<span v-if="item.orderStatus == 1">待付款</span>
+				<span v-if="item.orderStatus == 2">已付订金</span>
+				<span v-if="item.orderStatus == 3">交易成功</span>
 			</div>
 			<div class="index-content weui-cells">
-				<div class="weui-cell" @click="goDetail(item.productId)" v-for="item in list">
+				<div class="weui-cell" @click="goDetail(item.productId)">
 					<div class="weui-cell__hd">
 						<img :src="item.picture" width="90"/>
 					</div>
@@ -17,12 +19,12 @@
 						<div class="product-dec">
 							{{item.subTitle}}
 						</div>
-						<div class="product-remark">指导价{{item.price}}万起</div>
+						<div class="product-remark">指导价{{item.totalPrice}}万起</div>
 					</div>
 				</div>
 			</div>
 			<div class="btn-list">
-				<a href="">查看详情</a>
+				<a href="javascript: void(0)" @click="goOrderDetail(item.id)">查看详情</a>
 				<a href="">联系客服</a>
 			</div>
 		</div>
@@ -31,12 +33,12 @@
 <script>
 import { XHeader } from 'vux';
 import { LXAjax } from '@/assets/js/utils';
+import { WEIXIN_LOGIN_URL, ORDER } from '@/assets/js/const';
 
 export default {
 	name: 'order',
 	data(){
 		return {
-			imgList: [],
 			list: [
 				{
 					id:1,
@@ -69,8 +71,31 @@ export default {
 	},
 	components: { XHeader },
 	methods: {
+		getData(){
+			LXAjax('get', 'api/myOrder/list')
+			.done(res => {
+				this.list = res.orderList;
+			})
+			.fail(res => {
+				if(res.flag == -2){
+					window.location.href = WEIXIN_LOGIN_URL + '?state=' + ORDER;
+				}
+			})
+			.error(err => {
+				console.log(err);
+			})
+			.always(res => {
+			});
+		},
+		goOrderDetail(id){
+			this.$router.push('/orderDetail?id='+id);
+		},
+		goDetail(id){
+			this.$router.push('/detail?productId='+id);
+		},
 	},
 	mounted(){
+		this.getData();
 	}
 };
 </script>

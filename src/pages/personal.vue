@@ -21,7 +21,7 @@
 				</div>
 				<div class="weui-cell__ft"></div>
 			</div>
-			<div class="weui-cell weui-cell_select weui-cell_select-after">
+			<div class="weui-cell weui-cell_select weui-cell_select-after" @click="goBd">
 				<div class="weui-cell__hd">
 					<img src="../assets/images/grzx_wdbd_50x50.png" alt="">
 				</div>
@@ -82,6 +82,9 @@ export default {
 		},
 		goCoupon(){
 			this.$router.push('/coupon');
+		},
+		goBd(){
+			this.$router.push('/bdindex');
 		},
 	},
 	mounted(){

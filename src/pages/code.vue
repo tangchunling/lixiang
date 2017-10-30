@@ -4,15 +4,15 @@
 		<div class="line"></div>
 		<div class="code-content">
 			<div class="header">
-				<img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1517493529,2056196770&fm=27&gp=0.jpg" alt="头像">
+				<img :src="data.userLogo" alt="头像">
 				<div class="name">
-					<p>名字名字</p>
-					<span>浙江</span>
-					<span>杭州</span>
+					<p>{{data.userName}}</p>
+					<span>{{data.province}}</span>
+					<span>{{data.city}}</span>
 				</div>
 			</div>
 			<div class="code-img">
-				<img src="https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=1062989499,1682648318&fm=58" alt="二维码">
+				<img :src="data.qrCodeImg" alt="二维码">
 			</div>
 			<p>扫描上面的二维码图案，<br>关注里享出行即可获得超值优惠券</p>
 		</div>
@@ -21,19 +21,44 @@
 <script>
 import { XHeader } from 'vux';
 import { LXAjax } from '@/assets/js/utils';
+import { WEIXIN_LOGIN_URL, CODE } from '@/assets/js/const';
 
 export default {
 	name: 'code',
 	data(){
 		return {
+			data: {
+				city: '',
+				province: '',
+				qrCodeImg: '',
+				userLogo: '',
+				userName: '',
+			},
 		};
 	},
 	computed: {
 	},
 	components: { XHeader },
 	methods: {
+		getData(){
+			LXAjax('get', 'api/user/core/invite')
+			.done(res => {
+				this.data = res.data;
+			})
+			.fail(res => {
+				if(res.flag == -2){
+					window.location.href = WEIXIN_LOGIN_URL + '?state=' + CODE;
+				}
+			})
+			.error(err => {
+				console.log(err);
+			})
+			.always(res => {
+			});
+		},
 	},
 	mounted(){
+		this.getData();
 	}
 };
 </script>

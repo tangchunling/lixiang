@@ -18,4 +18,10 @@
 	#app,body,html{
 		height: 100%;
 	}
+	.nodata{
+		text-align: center;
+		padding: 40px 0;
+		font-size: 14px;
+		color: #aaa;
+	}
 </style>

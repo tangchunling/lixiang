@@ -31,7 +31,7 @@
 			</div>
 			<div class="status-img weui-flex">
 				<div class="weui-flex__item">
-					<div class="item">
+					<div class="item" style="padding-right: 10px;">
 						<div class="left">
 							<img src="../assets/images/yy_xz1.png" alt="">
 						</div>
@@ -41,7 +41,7 @@
 					</div>
 				</div>
 				<div class="weui-flex__item">
-					<div class="item">
+					<div class="item" style="margin-left: -10px;padding-right: 14px;">
 						<div class="left">
 							<img src="../assets/images/yy_xz1.png" alt="">
 						</div>
@@ -51,7 +51,7 @@
 					</div>
 				</div>
 				<div class="weui-flex__item">
-					<div class="item">
+					<div class="item" style="margin-left: -14px;padding-right: 14px;">
 						<div class="left">
 							<img src="../assets/images/yy_xz1.png" alt="">
 						</div>
@@ -91,9 +91,35 @@
 		data(){
 			return {
 				index: 0,
+				orderId: '',
+				orderDetail: '',
 			};
 		},
 		components: { XHeader, Tab, TabItem },
+		methods: {
+			getData(){
+				LXAjax('post', 'api/myOrder/detail', {
+					orderId: this.orderId,
+				})
+				.done(res => {
+					this.orderDetail = res.orderInfo;
+				})
+				.fail(res => {
+					if(res.flag == -2){
+						window.location.href = WEIXIN_LOGIN_URL + '?state=' + ORDER;
+					}
+				})
+				.error(err => {
+					console.log(err);
+				})
+				.always(res => {
+				});
+			},
+		},
+		mounted(){
+			this.orderId = Number(this.$route.query.id);
+			this.getData();
+		}
 	}
 </script>
 <style lang="less" scoped>
