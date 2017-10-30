@@ -28,7 +28,8 @@
 				wait: 60,
 				isShow: true,
 				code: '',
-				userId: ''
+				userId: '',
+				redirect: '/index',
 			};
 		},
 		methods: {
@@ -75,9 +76,9 @@
 					this.$vux.toast.text('请输入验证码', 'top');
 					return;
 				}
-				LXAjax('post', 'api/login?mobile='+this.tel + '&verifyCode=' + this.code + '&userId=' + this.userId)
+				LXAjax('post', 'api/login?mobile='+this.tel + '&verifyCode=' + this.code + '&openId=' + this.userId)
 				.done(res => {
-
+					this.$router.push(this.redirect);
 				})
 				.fail(res => {
 				})
@@ -90,7 +91,8 @@
 			}
 		},
 		mounted(){
-			this.userId = this.$route.query.userId;
+			this.userId = this.$route.query.openId || '';
+			this.redirect = this.$route.query.redirect || '/index';
 		}
 	};
 </script>

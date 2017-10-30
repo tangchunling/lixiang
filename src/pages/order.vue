@@ -6,6 +6,8 @@
 				<span v-if="item.orderStatus == 1">待付款</span>
 				<span v-if="item.orderStatus == 2">已付订金</span>
 				<span v-if="item.orderStatus == 3">交易成功</span>
+				<span v-if="item.orderStatus == 4">已提车</span>
+				<span v-if="item.orderStatus == 10">交易完成</span>
 			</div>
 			<div class="index-content weui-cells">
 				<div class="weui-cell" @click="goDetail(item.productId)">
@@ -24,7 +26,7 @@
 				</div>
 			</div>
 			<div class="btn-list">
-				<a href="javascript: void(0)" @click="goOrderDetail(item.id)">查看详情</a>
+				<a href="javascript: void(0)" @click="goOrderDetail(item.orderId)">查看详情</a>
 				<a href="tel:400123456">联系客服</a>
 			</div>
 		</div>
