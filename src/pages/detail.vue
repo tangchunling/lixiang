@@ -3,7 +3,7 @@
 		<headNav></headNav>
 		<div v-if="carInfo === ''">请选择商品</div>
 		<template v-else>
-			<swiper :list="imgList" auto height="180px" dots-class="custom-bottom" dots-position="center"></swiper>
+			<swiper :list="imgList" auto dots-class="custom-bottom" dots-position="center" loop></swiper>
 			<div class="block">
 				<div class="pro-name">{{carInfo.title}}</div>
 				<div class="pro-dec">{{carInfo.subTitle}}</div>

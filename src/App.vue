@@ -24,4 +24,7 @@
 		font-size: 14px;
 		color: #aaa;
 	}
+	.carinfo img{
+		width: 100%;
+	}
 </style>

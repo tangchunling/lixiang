@@ -68,6 +68,7 @@
 <script>
 	import { XHeader, Datetime, Group, PopupPicker } from 'vux';
 	import { LXAjax, checkPhone } from '@/assets/js/utils';
+	import { WEIXIN_LOGIN_URL, SUBSCRIBE } from '@/assets/js/const';
 
 	export default {
 		data(){
@@ -136,6 +137,9 @@
 					this.$router.push('/success');
 				})
 				.fail(res => {
+					if(res.flag == -2){
+						window.location.href = WEIXIN_LOGIN_URL + '?state=' + SUBSCRIBE;
+					}
 					this.$vux.toast.text(res.message, 'top');
 				})
 				.error(err => {

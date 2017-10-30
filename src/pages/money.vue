@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="head">
-			<img src="../assets/images/grzx_jt2.png" alt="">
+			<img src="../assets/images/grzx_jt2.png" alt="" @click="back">
 			<span>我的收益</span>
 		</div>
 		<div class="line"></div>
@@ -96,6 +96,9 @@
 				.always(res => {
 				});
 			},
+			back(){
+				this.$router.back();
+			}
 		},
 		mounted(){
 			this.getData();

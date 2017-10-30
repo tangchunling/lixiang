@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<headNav></headNav>
-		<swiper :list="imgList" auto height="180px" dots-class="custom-bottom" dots-position="center"></swiper>
+		<swiper :list="imgList" auto dots-class="custom-bottom" dots-position="center" loop></swiper>
 		<div class="index-content weui-cells">
 			<div class="weui-cell" @click="goDetail(item.productId)" v-for="item in list">
 				<div class="weui-cell__hd">

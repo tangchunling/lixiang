@@ -64,6 +64,7 @@
 					// this.list = res.couponInfo;
 				})
 				.fail(res => {
+					this.$vux.toast.text(res.message, 'top');
 				})
 				.error(err => {
 					console.log(err);
@@ -86,8 +87,7 @@
 					userId: this.userId,
 				})
 				.done(res => {
-					this.time();
-					// this.list = res.couponInfo;
+
 				})
 				.fail(res => {
 				})
@@ -95,6 +95,7 @@
 					console.log(err);
 				})
 				.always(res => {
+					this.$vux.toast.text(res.message, 'top');
 				});
 			}
 		},

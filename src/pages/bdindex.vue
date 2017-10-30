@@ -17,17 +17,35 @@
 		</div>
 		<div class="height"></div>
 		<div class="footer">
-			<a href="">
+			<a href="javascript: void(0)" @click="goShare">
 				<img src="../assets/images/sy_yqhy.png" alt="">
 				<span>邀请好友</span>
 			</a>
-			<a href="">
+			<a href="javascript: void(0)" @click="goMoney">
 				<img src="../assets/images/sy_ckhy.png" alt="">
 				<span>查看好友</span>
 			</a>
 		</div>
 	</div>
 </template>
+<script>
+	export default {
+		name: 'app',
+		data(){
+			return {};
+		},
+		methods: {
+			goShare(){
+				this.$router.push('/share');
+			},
+			goMoney(){
+				this.$router.push('/money');
+			}
+		},
+		mounted(){
+		}
+	};
+</script>
 <style lang="less" scoped>
 	h1{
 		font-size: 24px;
@@ -68,7 +86,7 @@
 			text-align: center;
 			color: #fff;
 			font-size: 14px;
-			padding: 16px 0;
+			padding: 10px 0;
 			border-right: 1px solid #0c7e67;
 			margin-right: -1px;
 			img{
@@ -93,6 +111,6 @@
 		background: #fafafa;
 	}
 	.height{
-		height: 64px;
+		height: 50px;
 	}
 </style>

@@ -25,7 +25,7 @@
 			</div>
 			<div class="btn-list">
 				<a href="javascript: void(0)" @click="goOrderDetail(item.id)">查看详情</a>
-				<a href="">联系客服</a>
+				<a href="tel:400123456">联系客服</a>
 			</div>
 		</div>
 	</div>
