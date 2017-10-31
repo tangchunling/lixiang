@@ -86,7 +86,7 @@
 					this.data = res.buddy;
 				})
 				.fail(res => {
-					if(res.flag == -2){
+					if(res.flag == -1){
 						window.location.href = WEIXIN_LOGIN_URL + '?state=' + MONEY;
 					}
 				})

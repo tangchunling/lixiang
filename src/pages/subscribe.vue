@@ -1,12 +1,12 @@
 <template>
 	<div class="subscribe">
-		<x-header></x-header>
+		<headTop></headTop>
 		<div class="product-content">
 			<div class="weui-cells__title"></div>
 			<div class="weui-cells">
 				<div class="weui-cell">
 					<div class="weui-cell__hd">
-						<img :src="productDetail.img" width="90"/>
+						<img :src="productDetail.img + '_200x200.jpg'" width="90"/>
 					</div>
 					<div class="weui-cell__bd">
 						<div class="product-name">
@@ -66,9 +66,10 @@
 	</div>
 </template>
 <script>
-	import { XHeader, Datetime, Group, PopupPicker } from 'vux';
+	import { XHeader, Datetime, Group, PopupPicker, base64 } from 'vux';
 	import { LXAjax, checkPhone } from '@/assets/js/utils';
 	import { WEIXIN_LOGIN_URL, SUBSCRIBE } from '@/assets/js/const';
+	import headTop from '@/components/headTop';
 
 	export default {
 		data(){
@@ -86,7 +87,7 @@
 				stores: [[]],
 			};
 		},
-		components: { XHeader, Datetime, Group, PopupPicker },
+		components: { XHeader, Datetime, Group, PopupPicker, headTop },
 		methods: {
 			change(date){
 
@@ -137,8 +138,9 @@
 					this.$router.push('/success');
 				})
 				.fail(res => {
-					if(res.flag == -2){
-						window.location.href = WEIXIN_LOGIN_URL + '?state=' + SUBSCRIBE;
+					if(res.flag == -1){
+						let str = '/subscribe&productId=' + this.productId;
+						window.location.href = WEIXIN_LOGIN_URL + '?state=' + base64.encode(str);
 					}
 					this.$vux.toast.text(res.message, 'top');
 				})

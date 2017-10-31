@@ -1,8 +1,8 @@
 <template>
 	<div class="coupon">
-		<x-header title="我的优惠券"></x-header>
+		<headTop title="我的优惠券"></headTop>
 		<div class="container">
-			<div class="list" v-for="item in list" :class="{'disabled': item.status == 0}">
+			<div class="list" v-for="item in list" :class="{'disabled': item.status == 3}">
 				<div class="left">
 					<div class="title">￥<strong>{{item.couponMoney}}</strong>
 						<template v-if="item.couponType == 1">优惠券</template>
@@ -11,11 +11,15 @@
 					<p>{{item.couponName}}</p>
 					<p>有效期：{{item.startTime}} - {{item.endTime}}</p>
 				</div>
-				<div class="right" v-if="item.status == 1">
+				<div class="right" v-if="item.status == 0">
 					<img src="../assets/images/wdyhq_ysy1.png" alt="">
 				</div>
-				<div class="right" v-if="item.status == 0">
+				<div class="right" v-if="item.status == 3">
 					<img src="../assets/images/wdyhq_ysx2.png" alt="">
+				</div>
+				<div class="right" v-if="item.status == 1">
+					<p>立即</p>
+					<p>使用</p>
 				</div>
 			</div>
 		</div>
@@ -26,6 +30,7 @@
 import { XHeader } from 'vux';
 import { LXAjax } from '@/assets/js/utils';
 import { WEIXIN_LOGIN_URL, COUPON } from '@/assets/js/const';
+import headTop from '@/components/headTop';
 
 export default {
 	name: 'coupon',
@@ -36,15 +41,15 @@ export default {
 	},
 	computed: {
 	},
-	components: { XHeader },
+	components: { XHeader, headTop },
 	methods: {
 		getData(){
-			LXAjax('get', 'api/myCoupon/detail')
+			LXAjax('get', 'api/user/core/couponDetail')
 			.done(res => {
 				this.list = res.couponInfo;
 			})
 			.fail(res => {
-				if(res.flag == -2){
+				if(res.flag == -1){
 					window.location.href = WEIXIN_LOGIN_URL + '?state=' + COUPON;
 				}
 			})
@@ -95,6 +100,10 @@ export default {
 				padding: 0 10px;
 				img{
 					width: 60px;
+				}
+				p{
+					font-size: 20px;
+					color: #cb0035;
 				}
 			}
 			&.disabled{

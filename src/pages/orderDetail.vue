@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<x-header title="订单详情"></x-header>
+		<headTop title="订单详情"></headTop>
 		<div class="line"></div>
 		<!-- <flow>
 			<flow-state title="定金支付" is-done></flow-state>
@@ -36,7 +36,7 @@
 							<img src="../assets/images/yy_xz1.png" alt="">
 						</div>
 						<div class="right">
-							<img src="../assets/images/xq_jt1.png" alt="">
+							<img src="../assets/images/xq_jt1.jpg" alt="">
 						</div>
 					</div>
 					<div class="item" style="padding-right: 10px;" v-else>
@@ -44,7 +44,7 @@
 							<img src="../assets/images/yy_wxz1.png" alt="">
 						</div>
 						<div class="right">
-							<img src="../assets/images/xq_jt2.png" alt="">
+							<img src="../assets/images/xq_jt2.jpg" alt="">
 						</div>
 					</div>
 				</div>
@@ -54,33 +54,33 @@
 							<img src="../assets/images/yy_xz1.png" alt="">
 						</div>
 						<div class="right">
-							<img src="../assets/images/xq_jt1.png" alt="">
+							<img src="../assets/images/xq_jt1.jpg" alt="">
 						</div>
 					</div>
-					<div class="item" style="padding-right: 10px;" v-else>
+					<div class="item" style="margin-left: -10px;padding-right: 14px;" v-else>
 						<div class="left">
 							<img src="../assets/images/yy_wxz1.png" alt="">
 						</div>
 						<div class="right">
-							<img src="../assets/images/xq_jt2.png" alt="">
+							<img src="../assets/images/xq_jt2.jpg" alt="">
 						</div>
 					</div>
 				</div>
 				<div class="weui-flex__item">
-					<div class="item" style="margin-left: -14px;padding-right: 14px;" v-if="orderDetail.orderStatus >= 4">
+					<div class="item" style="margin-left: -14px;padding-right: 18px;" v-if="orderDetail.orderStatus >= 4">
 						<div class="left">
 							<img src="../assets/images/yy_xz1.png" alt="">
 						</div>
 						<div class="right">
-							<img src="../assets/images/xq_jt1.png" alt="">
+							<img src="../assets/images/xq_jt1.jpg" alt="">
 						</div>
 					</div>
-					<div class="item" style="padding-right: 10px;" v-else>
+					<div class="item" style="margin-left: -14px;padding-right: 18px;" v-else>
 						<div class="left">
 							<img src="../assets/images/yy_wxz1.png" alt="">
 						</div>
 						<div class="right">
-							<img src="../assets/images/xq_jt2.png" alt="">
+							<img src="../assets/images/xq_jt2.jpg" alt="">
 						</div>
 					</div>
 				</div>
@@ -140,6 +140,8 @@
 <script>
 	import { XHeader, Tab, TabItem, dateFormat } from 'vux';
 	import { LXAjax } from '@/assets/js/utils';
+	import headTop from '@/components/headTop';
+	import { WEIXIN_LOGIN_URL, ORDER } from '@/assets/js/const';
 
 	export default {
 		name: 'orderDetail',
@@ -150,10 +152,10 @@
 				orderDetail: '',
 			};
 		},
-		components: { XHeader, Tab, TabItem },
+		components: { XHeader, Tab, TabItem, headTop },
 		methods: {
 			getData(){
-				LXAjax('post', 'api/myOrder/detail', {
+				LXAjax('post', 'api/user/core/orderDetail', {
 					orderId: this.orderId,
 				})
 				.done(res => {
@@ -163,7 +165,7 @@
 					this.orderDetail = res.orderInfo;
 				})
 				.fail(res => {
-					if(res.flag == -2){
+					if(res.flag == -1){
 						window.location.href = WEIXIN_LOGIN_URL + '?state=' + ORDER;
 					}
 				})

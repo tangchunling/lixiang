@@ -1,6 +1,6 @@
 <template>
 	<div class="order">
-		<x-header title="我的订单"></x-header>
+		<headTop title="我的订单"></headTop>
 		<div class="list" v-for="item in list">
 			<div class="weui-cells__title">
 				<span v-if="item.orderStatus == 1">待付款</span>
@@ -12,14 +12,14 @@
 			<div class="index-content weui-cells">
 				<div class="weui-cell" @click="goDetail(item.productId)">
 					<div class="weui-cell__hd">
-						<img :src="item.picture" width="90"/>
+						<img :src="item.picUrl + '_200x200.jpg'" width="90"/>
 					</div>
 					<div class="weui-cell__bd">
 						<div class="product-name">
-							{{item.title}}
+							{{item.productTitle}}
 						</div>
 						<div class="product-dec">
-							{{item.subTitle}}
+							{{item.productSubTitle}}
 						</div>
 						<div class="product-remark">指导价{{item.totalPrice}}万起</div>
 					</div>
@@ -36,51 +36,29 @@
 import { XHeader } from 'vux';
 import { LXAjax } from '@/assets/js/utils';
 import { WEIXIN_LOGIN_URL, ORDER } from '@/assets/js/const';
+import headTop from '@/components/headTop';
+
+console.log(ORDER);
 
 export default {
 	name: 'order',
 	data(){
 		return {
-			list: [
-				{
-					id:1,
-					modified:1507046514000,
-					paymentDeposit:10000,
-					paymentEach:3000,
-					paymentRemark:"需向门店支付交车服务费4000元",
-					paymentTags:"含购置税,送一年保险",
-					paymentTail:10000,
-					paymentTerm:12,
-					picture:"https://img.souche.com/20170930/jpg/baf964c53f58a461dbd399a5520caf25.jpg",
-					price:"23.78",
-					productId:"10001",
-					props:null,
-					propsStr:null,
-					saleProps:null,
-					salePropsImgs:"",
-					salePropsStr:null,
-					sales:100,
-					spec:null,
-					status:1,
-					subTitle:"2017款 300TSI 自动两驱丝绸之路",
-					title:"大众途观",
-					type:"1",
-				}
-			],
+			list: [],
 		};
 	},
 	computed: {
 	},
-	components: { XHeader },
+	components: { XHeader, headTop },
 	methods: {
 		getData(){
-			LXAjax('get', 'api/myOrder/list')
+			LXAjax('get', 'api/user/core/orderList')
 			.done(res => {
 				this.list = res.orderList;
 			})
 			.fail(res => {
-				if(res.flag == -2){
-					window.location.href = WEIXIN_LOGIN_URL + '?state=' + ORDER;
+				if(res.flag == -1){
+					// window.location.href = WEIXIN_LOGIN_URL + '?state=' + ORDER;
 				}
 			})
 			.error(err => {

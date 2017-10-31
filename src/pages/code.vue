@@ -1,6 +1,6 @@
 <template>
 	<div class="code">
-		<x-header title="我的二维码"></x-header>
+		<headTop title="我的二维码"></headTop>
 		<div class="line"></div>
 		<div class="code-content">
 			<div class="header">
@@ -22,6 +22,7 @@
 import { XHeader } from 'vux';
 import { LXAjax } from '@/assets/js/utils';
 import { WEIXIN_LOGIN_URL, CODE } from '@/assets/js/const';
+import headTop from '@/components/headTop';
 
 export default {
 	name: 'code',
@@ -38,7 +39,7 @@ export default {
 	},
 	computed: {
 	},
-	components: { XHeader },
+	components: { XHeader, headTop },
 	methods: {
 		getData(){
 			LXAjax('get', 'api/user/core/invite')
@@ -46,7 +47,7 @@ export default {
 				this.data = res.data;
 			})
 			.fail(res => {
-				if(res.flag == -2){
+				if(res.flag == -1){
 					window.location.href = WEIXIN_LOGIN_URL + '?state=' + CODE;
 				}
 			})

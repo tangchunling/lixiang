@@ -19,3 +19,9 @@ export const ORDER_DETAIL = base64.encode('/orderDetail');
 
 // 二维码
 export const CODE = base64.encode('/code');
+
+// 预约
+export const SUBSCRIBE = base64.encode('/subscribe');
+
+// 我的车辆
+export const CARD = base64.encode('/CARD');

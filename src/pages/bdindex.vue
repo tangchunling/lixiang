@@ -26,13 +26,25 @@
 				<span>查看好友</span>
 			</a>
 		</div>
+		<!-- <div v-transfer-dom>
+			<x-dialog v-model="showToast" class="dialog-demo">
+				<div style="padding:15px;">
+					<p></p>
+				</div>
+				<div @click="showToast=false">
+					<span class="vux-close"></span>
+				</div>
+			</x-dialog>
+		</div> -->
 	</div>
 </template>
 <script>
 	export default {
 		name: 'app',
 		data(){
-			return {};
+			return {
+				showToast: true,
+			};
 		},
 		methods: {
 			goShare(){

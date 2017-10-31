@@ -1,7 +1,7 @@
 <template>
 	<div class="login">
 		<div class="login-title">
-			我要买车
+			<img src="../assets/images/logo.png" alt="">
 		</div>
 		<div class="login-form">
 			<div class="number">
@@ -20,6 +20,7 @@
 </template>
 <script>
 	import { LXAjax, checkPhone } from '@/assets/js/utils';
+	import { base64 } from 'vux';
 
 	export default {
 		data(){
@@ -101,6 +102,9 @@
 		.login-title{
 			padding: 40px 0;
 			text-align: center;
+			img{
+				width: 100px;
+			}
 		}
 		.login-form{
 			margin: 1.17647059em 15px 0.3em;
