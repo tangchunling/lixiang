@@ -21,6 +21,7 @@
 <script>
 	import { LXAjax, checkPhone } from '@/assets/js/utils';
 	import { base64 } from 'vux';
+	console.log(base64.encode('/bdindex'))
 
 	export default {
 		data(){

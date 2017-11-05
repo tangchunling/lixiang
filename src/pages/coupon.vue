@@ -27,7 +27,7 @@
 	</div>
 </template>
 <script>
-import { XHeader } from 'vux';
+import { XHeader, dateFormat } from 'vux';
 import { LXAjax } from '@/assets/js/utils';
 import { WEIXIN_LOGIN_URL, COUPON } from '@/assets/js/const';
 import headTop from '@/components/headTop';
@@ -46,6 +46,11 @@ export default {
 		getData(){
 			LXAjax('get', 'api/user/core/couponDetail')
 			.done(res => {
+				res.couponInfo.map(el => {
+					el.startTime = dateFormat(el.startTime, 'YYYY-MM-DD');
+					el.endTime = dateFormat(el.endTime, 'YYYY-MM-DD');
+					return el;
+				});
 				this.list = res.couponInfo;
 			})
 			.fail(res => {

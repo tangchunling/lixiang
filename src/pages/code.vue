@@ -45,6 +45,33 @@ export default {
 			LXAjax('get', 'api/user/core/invite')
 			.done(res => {
 				this.data = res.data;
+				// 处理验证成功的信息
+				this.$wechat.ready(() => {
+					// 分享到朋友圈
+					this.$wechat.onMenuShareTimeline({
+						title: '里享出行', // 分享标题
+						desc: '错过了高补贴时期跑滴滴，赚钱越来越少这一次，里享补贴你租电动汽车跑网约你还要错过吗？', // 分享描述
+						link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+						imgUrl: res.data.userLogo, // 分享图标
+						success: function (res) {
+						},
+						cancel: function (res) {
+						}
+					});
+					// 分享给朋友
+					this.$wechat.onMenuShareAppMessage({
+						title: '里享出行', // 分享标题
+						desc: '错过了高补贴时期跑滴滴，赚钱越来越少这一次，里享补贴你租电动汽车跑网约你还要错过吗？', // 分享描述
+						link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+						imgUrl: res.data.userLogo, // 分享图标
+						type: '', // 分享类型,music、video或link，不填默认为link
+						dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+						success: function (res) {
+						},
+						cancel: function (res) {
+						}
+					});
+				});
 			})
 			.fail(res => {
 				if(res.flag == -1){
@@ -57,9 +84,33 @@ export default {
 			.always(res => {
 			});
 		},
+		getShare(){
+			LXAjax('get', 'api/weixin/sign?url='+window.location.href)
+			.done(res => {
+				this.$wechat.config({
+					debug: false,
+					appId: res.appId, // 和获取Ticke的必须一样------必填，公众号的唯一标识
+					timestamp:res.sign.timestamp, // 必填，生成签名的时间戳
+					nonceStr: res.sign.nonceStr, // 必填，生成签名的随机串
+					signature: res.sign.signature,// 必填，签名，见附录1
+					// 需要分享的列表项:发送给朋友，分享到朋友圈，分享到QQ，分享到QQ空间
+					jsApiList: [
+						'onMenuShareAppMessage','onMenuShareTimeline'
+					]
+				});
+			})
+			.fail(res => {
+			})
+			.error(err => {
+				console.log(err);
+			})
+			.always(res => {
+			});
+		}
 	},
 	mounted(){
 		this.getData();
+		this.getShare();
 	}
 };
 </script>

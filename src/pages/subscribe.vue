@@ -79,7 +79,7 @@
 					name: '',
 					date: '',
 					sex: 0,
-					store: ['1'],
+					store: [],
 					storeId: '',
 				},
 				productId: '',
@@ -177,12 +177,29 @@
 				.error(err => {
 					console.log(err);
 				});
+			},
+			getInfo(){
+				LXAjax('get', 'api/user/core/myUserInfo')
+				.done(res => {
+					this.subscribe.tel = res.user.mobile;
+					this.subscribe.name = res.user.trueName;
+				})
+				.fail(res => {
+					if(res.flag == -1){
+						let str = '/subscribe&productId=' + this.productId;
+						window.location.href = WEIXIN_LOGIN_URL + '?state=' + base64.encode(str);
+					}
+				})
+				.error(err => {
+					console.log(err);
+				});
 			}
 		},
 		mounted(){
 			this.productId = Number(this.$route.query.productId);
 			this.getDetail();
 			this.getStore();
+			this.getInfo();
 		}
 	}
 </script>
