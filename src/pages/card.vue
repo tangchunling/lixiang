@@ -5,7 +5,7 @@
 			<div class="index-content weui-cells">
 				<div class="weui-cell" @click="goDetail(item.productId)" v-for="item in list">
 					<div class="weui-cell__hd">
-						<img :src="item.picUrl + '_200x200.jpg'" width="90"/>
+						<img :src="'http://img.imaqu.com/joyli' + item.picUrl + '_200x200.jpg'" width="90"/>
 					</div>
 					<div class="weui-cell__bd">
 						<div class="product-name">
@@ -58,6 +58,9 @@ export default {
 			.always(res => {
 			});
 		},
+		goDetail(id, productId){
+			this.$router.push('/cardDetail?productId=' + productId);
+		}
 	},
 	mounted(){
 		this.getData();

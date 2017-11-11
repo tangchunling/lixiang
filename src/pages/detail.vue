@@ -61,7 +61,7 @@
 			</div>
 			<div class="line"></div>
 			<div class="block" v-if="stores.length > 0">
-				<div class="store">
+				<div class="store" @click="goStore">
 					<span>全部门店</span>
 					<span>全部{{stores.length}}家门店</span>
 				</div>
@@ -123,6 +123,9 @@
 			};
 		},
 		methods: {
+			goStore(){
+				this.$router.push('/storeList');
+			},
 			getDetail(){
 				this.$vux.loading.show();
 				let api = 'api/buy/detail?productId=' + this.productId;

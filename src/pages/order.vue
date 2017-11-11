@@ -12,7 +12,7 @@
 			<div class="index-content weui-cells">
 				<div class="weui-cell" @click="goDetail(item.productId)">
 					<div class="weui-cell__hd">
-						<img :src="item.picUrl + '_200x200.jpg'" width="90"/>
+						<img :src="'http://img.imaqu.com/joyli' + item.picUrl + '_200x200.jpg'" width="90"/>
 					</div>
 					<div class="weui-cell__bd">
 						<div class="product-name">

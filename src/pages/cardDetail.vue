@@ -1,6 +1,6 @@
 <template>
 	<div class="subscribe">
-		<headTop title="预约试车"></headTop>
+		<headTop title="预约保养"></headTop>
 		<div class="product-content">
 			<div class="weui-cells__title"></div>
 			<div class="weui-cells">
@@ -132,7 +132,7 @@
 					reserveDate: new Date(this.subscribe.date),
 					shopId: this.subscribe.storeId,
 					shopName: this.subscribe.store[0],
-					type: 1,
+					type: 2,
 				};
 				LXAjax('post', 'api/addReserve', data)
 				.done(res => {
@@ -140,7 +140,7 @@
 				})
 				.fail(res => {
 					if(res.flag == -1){
-						let str = '/subscribe&productId=' + this.productId;
+						let str = '/cardDetail&productId=' + this.productId;
 						window.location.href = WEIXIN_LOGIN_URL + '?state=' + base64.encode(str);
 					}
 					this.$vux.toast.text(res.message, 'top');
@@ -187,7 +187,7 @@
 				})
 				.fail(res => {
 					if(res.flag == -1){
-						let str = '/subscribe&productId=' + this.productId;
+						let str = '/cardDetail&productId=' + this.productId;
 						window.location.href = WEIXIN_LOGIN_URL + '?state=' + base64.encode(str);
 					}
 				})

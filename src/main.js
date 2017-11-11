@@ -5,10 +5,6 @@ import App from './App'
 import router from './router'
 import store from './store/storeIndex.js'
 
-import VueResource from 'vue-resource'
-
-Vue.use(VueResource)
-
 require('../node_modules/vux/src/styles/reset.less');
 require('weui');
 

@@ -5,7 +5,7 @@
 		<div class="index-content weui-cells">
 			<div class="weui-cell" @click="goDetail(item.productId)" v-for="item in list">
 				<div class="weui-cell__hd">
-					<img :src="item.picture + '_200x200.jpg'" width="90"/>
+					<img :src="'http://img.imaqu.com/joyli' + item.picture + '_200x200.jpg'" width="90"/>
 				</div>
 				<div class="weui-cell__bd">
 					<div class="product-name">

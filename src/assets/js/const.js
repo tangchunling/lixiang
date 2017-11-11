@@ -24,4 +24,4 @@ export const CODE = base64.encode('/code');
 export const SUBSCRIBE = base64.encode('/subscribe');
 
 // 我的车辆
-export const CARD = base64.encode('/CARD');
+export const CARD = base64.encode('/card');

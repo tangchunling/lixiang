@@ -15,6 +15,8 @@ const orderDetail = r => require.ensure([], () => r(require('@/pages/orderDetail
 const bdindex = r => require.ensure([], () => r(require('@/pages/bdindex')), 'bdindex');
 const money = r => require.ensure([], () => r(require('@/pages/money')), 'money');
 const share = r => require.ensure([], () => r(require('@/pages/share')), 'share');
+const cardDetail = r => require.ensure([], () => r(require('@/pages/cardDetail')), 'cardDetail');
+const storeList = r => require.ensure([], () => r(require('@/pages/storeList')), 'storeList');
 // const index = (resolve) => { require(['@/pages/index'], resolve); };
 // const detail = (resolve) => { require(['@/pages/detail'], resolve); };
 // const login = (resolve) => { require(['@/pages/login'], resolve); };
@@ -104,6 +106,16 @@ export default new Router({
 			path: '/share',
 			name: 'share',
 			component: share
+		},
+		{
+			path: '/cardDetail',
+			name: 'cardDetail',
+			component: cardDetail
+		},
+		{
+			path: '/storeList',
+			name: 'storeList',
+			component: storeList
 		}
 	],
 })
