@@ -1,11 +1,12 @@
 <template>
 	<div class="order">
 		<headTop title="门店列表"></headTop>
+		<div class="line"></div>
 		<div class="list">
 			<div class="item" v-for="item in list">
 				<h1>{{item.name}}</h1>
 				<p>{{item.cityName}}{{item.countyName}}{{item.address}}</p>
-				<p>电话<a :href="'tel:' + item.linkPhone">{{item.linkPhone}}</a></p>
+				<p>电话：<a :href="'tel:' + item.linkPhone">{{item.linkPhone}}</a></p>
 			</div>
 		</div>
 	</div>
@@ -60,5 +61,9 @@ export default {
 			}
 			border-bottom: 10px solid #f1f2f4;
 		}
+	}
+	.line{
+		height: 10px;
+		background-color: #f1f2f4;
 	}
 </style>

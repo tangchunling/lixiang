@@ -134,7 +134,7 @@
 					this.imgList = res.carInfo.images.map(el => {
 						let obj = {};
 						obj.url = '';
-						obj.img = 'http://img.imaqu.com' + el;
+						obj.img = 'http://img.imaqu.com/joyli' + el.replace(/\\/g, '/');
 						obj.title = '';
 						return obj;
 					});
@@ -149,7 +149,7 @@
 				});
 			},
 			goSubscribe(){
-				this.$router.push('/subscribe?productId=' + this.productId);
+				this.$router.push('/subscribe?productId=' + this.carInfo.id);
 			},
 			getStore(){
 				LXAjax('get', 'api/shop/list')

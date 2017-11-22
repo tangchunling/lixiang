@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<headNav></headNav>
-		<swiper :list="imgList" auto dots-class="custom-bottom" dots-position="center" loop></swiper>
+		<swiper :list="imgList" auto dots-class="custom-bottom" dots-position="center" loop aspect-ratio></swiper>
 		<div class="index-content weui-cells">
 			<div class="weui-cell" @click="goDetail(item.productId)" v-for="item in list">
 				<div class="weui-cell__hd">
@@ -60,7 +60,7 @@ export default {
 			.done(res => {
 				this.imgList = res.adList.map(el => {
 					el.url = el.imgLink;
-					el.img = el.imgUrl;
+					el.img = 'http://img.imaqu.com/joyli' + el.imgUrl.replace(/\\/g, '/');
 					el.title = '';
 					return el;
 				});

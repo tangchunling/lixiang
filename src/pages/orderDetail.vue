@@ -177,7 +177,7 @@
 			},
 		},
 		mounted(){
-			this.orderId = Number(this.$route.query.id);
+			this.orderId = this.$route.query.id;
 			this.getData();
 		}
 	}
