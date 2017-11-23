@@ -1,9 +1,9 @@
 <template>
 	<div>
 		<headNav></headNav>
-		<swiper :list="imgList" auto dots-class="custom-bottom" dots-position="center" loop aspect-ratio></swiper>
+		<swiper :list="imgList" auto dots-class="custom-bottom" dots-position="center" loop :aspect-ratio="300/800"></swiper>
 		<div class="index-content weui-cells">
-			<div class="weui-cell" @click="goDetail(item.productId)" v-for="item in list">
+			<div class="weui-cell" @click="goDetail(item.id)" v-for="item in list">
 				<div class="weui-cell__hd">
 					<img :src="'http://img.imaqu.com/joyli' + item.picture + '_200x200.jpg'" width="90"/>
 				</div>

@@ -3,7 +3,7 @@
 		<headNav></headNav>
 		<div v-if="carInfo === ''">请选择商品</div>
 		<template v-else>
-			<swiper :list="imgList" auto dots-class="custom-bottom" dots-position="center" loop></swiper>
+			<swiper :list="imgList" auto dots-class="custom-bottom" dots-position="center" loop :aspect-ratio="272/320"></swiper>
 			<div class="block">
 				<div class="pro-name">{{carInfo.title}}</div>
 				<div class="pro-dec">{{carInfo.subTitle}}</div>
@@ -138,7 +138,7 @@
 						obj.title = '';
 						return obj;
 					});
-					res.carInfo.paymentTags = res.carInfo.paymentTags.split(',');
+					res.carInfo.paymentTags = res.carInfo.paymentTags ? res.carInfo.paymentTags.split(',') : '';
 					this.carInfo = res.carInfo;
 				})
 				.error(err => {

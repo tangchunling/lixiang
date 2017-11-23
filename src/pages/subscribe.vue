@@ -184,6 +184,9 @@
 				.done(res => {
 					this.subscribe.tel = res.user.mobile;
 					this.subscribe.name = res.user.trueName;
+					if(this.subscribe.tel === '' || this.subscribe.tel === null || this.subscribe.tel === undefined){
+						this.$router.push('/login');
+					}
 				})
 				.fail(res => {
 					if(res.flag == -1){
