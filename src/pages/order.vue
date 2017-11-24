@@ -58,7 +58,7 @@ export default {
 			})
 			.fail(res => {
 				if(res.flag == -1){
-					// window.location.href = WEIXIN_LOGIN_URL + '?state=' + ORDER;
+					window.location.href = WEIXIN_LOGIN_URL + '?state=' + ORDER;
 				}
 			})
 			.error(err => {
