@@ -190,7 +190,7 @@
 				})
 				.fail(res => {
 					if(res.flag == -1){
-						let str = '/subscribe&productId=' + this.productId;
+						let str = '/subscribe?productId=' + this.productId;
 						window.location.href = WEIXIN_LOGIN_URL + '?state=' + base64.encode(str);
 					}
 				})
