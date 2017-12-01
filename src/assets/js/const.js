@@ -12,7 +12,7 @@ export const MONEY = base64.encode('/money');
 export const SHARE = base64.encode('/share');
 
 // 订单
-export const ORDER = base64.encode('/order');
+export const ORDER = base64.encode('/#/order');
 
 // 订单详情
 export const ORDER_DETAIL = base64.encode('/orderDetail');
@@ -25,3 +25,8 @@ export const SUBSCRIBE = base64.encode('/subscribe');
 
 // 我的车辆
 export const CARD = base64.encode('/card');
+
+export const WEIXIN_IMG_URL = 'http://img.imaqu.com/joyli';
+
+
+/*export const WEIXIN_IMG_URL = 'https://m.joyliev.com/static/images';*/
